@@ -1,6 +1,7 @@
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Map;
 
 import lexer.Lexer;
 import lexer.Token;
@@ -15,13 +16,13 @@ public class Tiger
   public static void main(String[] args)
   {
     InputStream fstream;
-    Parser parser;
+    Parser 	    parser;
 
     // ///////////////////////////////////////////////////////
     // handle command line arguments
     CommandLine cmd = new CommandLine();
     String fname = cmd.scan(args);
-    if (fname == null) {
+    if (fname == null) { 
       cmd.usage();
       return;
     }
@@ -32,12 +33,18 @@ public class Tiger
     if (control.Control.testlexer) {
       System.out.println("Testing the lexer. All tokens:");
       try {
+    	  
         fstream = new BufferedInputStream(new FileInputStream(fname));
         Lexer lexer = new Lexer(fname, fstream);
-        Token token = lexer.nextToken();
+        Token token = lexer.nextToken(); 
+        
         while (token.kind!=Kind.TOKEN_EOF){
           System.out.println(token.toString());
           token = lexer.nextToken();
+          if(token == null)
+          {
+        	  break ;
+          }
         }
         fstream.close();
       } catch (Exception e) {
